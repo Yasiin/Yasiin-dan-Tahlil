@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Yasiin dan Tahlil</title>
+        <link rel="stylesheet" href="themes/css/apple.css" title="jQTouch">
+
+        <script src="src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="extensions/jqt.themeswitcher.min.js" type="application/x-javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+        <script type="text/javascript" charset="utf-8">
+			document.addEventListener("deviceready", onDeviceReady, false);
+			function onDeviceReady() {
+			   //alert("Perangkat Telah Siap");
+			}
+			var my_media = null;
+			var mediaTimer = null;
+
+			function playAudio(src) {
+				my_media = new Media(src, onSuccess, onError);
+				my_media.play();
+				if (mediaTimer == null) {
+					mediaTimer = setInterval(function() {
+						my_media.getCurrentPosition(
+							function(position) {
+								if (position > -1) {
+									setAudioPosition((position) + " sec");
+								}
+							},
+							function(e) {
+								console.log("Error getting pos=" + e);
+								setAudioPosition("Error: " + e);
+							}
+						);
+					}, 1000);
+				}
+			}
+
+			function pauseAudio() {
+				if (my_media) {
+					my_media.pause();
+				}
+			}
+
+			function stopAudio() {
+				if (my_media) {
+					my_media.stop();
+				}
+				clearInterval(mediaTimer);
+				mediaTimer = null;
+			}
+
+			function onSuccess() {
+				console.log("playAudio():Audio Success");
+			}
+
+			function onError(error) {
+				alert('code: '    + error.code    + '\n' + 
+					  'message: ' + error.message + '\n');
+			}
+
+			function setAudioPosition(position) {
+				document.getElementById('audio_position').innerHTML = position;
+			}
+        </script>
+		<script type="text/javascript">
+    
+        google.load("feeds", "1");
+    	var htmlmedia = '';
+		
+		function parse_muslim() {
+          var feed = new google.feeds.Feed("http://feeds.feedburner.com/feedmuslim?format=xml");
+          feed.load(function(result) {
+            if (!result.error) {
+              for (var i = 0; i < result.feed.entries.length; i++) {
+                var entry = result.feed.entries[i];
+                htmlmedia += '<li><a target="_blank" href="' + entry.link + '">' + entry.title + '<em>' + entry.publishedDate + '</em></a></li>';
+              }
+            }
+          });
+        }
+		function parse_eramuslim() {
+          var feed = new google.feeds.Feed("http://feeds.feedburner.com/feederamuslim?format=xml");
+          feed.load(function(result) {
+            if (!result.error) {
+              var container = document.getElementById("feed_islam");
+              for (var i = 0; i < result.feed.entries.length; i++) {
+                var entry = result.feed.entries[i];
+				htmlmedia += '<li><a target="_blank" href="' + entry.link + '">' + entry.title + '<em>' + entry.publishedDate + '</em></a></li>';
+              }
+			  container.innerHTML = htmlmedia;
+            }
+          });
+        }
+		function parse_nahdlatul_ulama() {
+          var feed = new google.feeds.Feed("http://feeds.feedburner.com/nahdlatul_ulama");
+          feed.load(function(result) {
+            if (!result.error) {
+              var container = document.getElementById("feed_nahdlatul_ulama");
+			  var html = '';
+              for (var i = 0; i < result.feed.entries.length; i++) {
+                var entry = result.feed.entries[i];
+                html += '<li><a target="_blank" href="' + entry.link + '">' + entry.title + '<em>' + entry.publishedDate + '</em></a></li>';
+              }
+			  container.innerHTML = html;
+            }
+          });
+        }
+		function parse_muhammadiyah() {
+          var feed = new google.feeds.Feed("http://feeds.feedburner.com/feedmuhammadiyah?format=xml");
+          feed.load(function(result) {
+            if (!result.error) {
+              var container = document.getElementById("feed_muhammadiyah");
+			  var html = '';
+              for (var i = 0; i < result.feed.entries.length; i++) {
+                var entry = result.feed.entries[i];
+				html += '<li><a target="_blank" href="' + entry.link + '">' + entry.title + '<em>' + entry.publishedDate + '</em></a></li>';
+              }
+			  container.innerHTML = html;
+            }
+          });
+        }
+        google.setOnLoadCallback(parse_muslim);
+        google.setOnLoadCallback(parse_eramuslim);
+        google.setOnLoadCallback(parse_nahdlatul_ulama);
+        google.setOnLoadCallback(parse_muhammadiyah);
+    
+        </script>
+        
+        <script type="text/javascript" charset="utf-8">
+            var jQT = new $.jQTouch({
+                icon: 'images/icon.png',
+                icon4: 'images/logo.png',
+                addGlossToIcon: false,
+                startupScreen: 'images/splash.png',
+                statusBar: 'black-translucent',
+                themeSelectionSelector: '#jqt #themes ul',
+                preloadImages: []
+            });
+
+            $(function(){
+                 $('a[target="_blank"]').bind('click', function() {
+					return true;
+                });
+            });
+			
+        </script>
+        <style type="text/css" media="screen">
+            #jqt.fullscreen #home .info {
+                display: none;
+            }
+            div#jqt #tentang {
+                padding: 100px 10px 40px;
+                text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+                color: #999;
+                font-size: 13px;
+                text-align: center;
+                background: #161618;
+            }
+            div#jqt #tentang p {
+                margin-bottom: 8px;
+            }
+            div#jqt #tentang a {
+                color: #fff;
+                font-weight: bold;
+                text-decoration: none;
+            }
+			.ayat{
+				background-image:url(images/ayat.png);
+				color:#FF0000;
+			}
+        </style>
+    </head>
+    <body>
+        <div id="jqt">
+        	<!-- Halaman Tentang -->
+            <div id="tentang" class="selectable">
+                    <p><img src="images/logo.png" /></p>
+                    <p><strong>Yasiin dan Tahlil</strong><br>Versi 1.0<br></p>
+					<p>Media alternatif dalam penyelenggaraan acara tahlil dan memberikan kemudahan untuk membaca surah yasin. </p>
+					<p style="padding-left:20px; padding-right:20px"><br>Didedikasikan Kepada Almarhum:<br>H. Muchsin, Hj. Hadijah, Hj. Salmah, Hj. Siti Muti'ah, Hj. Zainab, K.H. Said, Khasanadi, Siti Chumaiyah, Siti Rohmah, Susilowati, Sutoharjo, Waginem.</p>
+					<p><br>Dikembangkan Oleh:<br><br>
+					<a target="_blank" href="https://m.facebook.com/Lia.enis.ratna">Lia Nur Enis Ratna Wijayanti</a><br>
+					<a target="_blank" href="https://m.facebook.com/miftakhululum.syaifulloh">Miftakhul Ulum Syaifulloh</a><br>
+					<a target="_blank" href="https://m.facebook.com/zackiey.yeachh">Hikmatuz Zakiyah</a><br>
+					<a target="_blank" href="https://m.facebook.com/mahfuz.offc">Mahfuz</a><br>
+					<a target="_blank" href="https://m.facebook.com/muhlish.aeji">Ibnu Zauji Muhlish</a><br><br>
+					<a target="_blank" href="https://github.com/Yasiin/Yasiin-dan-Tahlil">Kode Sumber @Github</a></p>
+                    <p><br><a href="#" class="grayButton goback">Tutup</a></p>
+            </div>
+            <div id="media_islam">
+                <div class="toolbar">
+                    <h1>Berita Islam</h1>
+                    <a class="back" href="#beranda">Kembali</a>
+                </div>
+                <ul class="metal scroll" id="feed_islam">
+                    <li><a href="#">Mohon Tunggu<em>Sedang memuat berita...</em></a></li>
+                </ul>
+            </div>
+            <div id="nahdlatul_ulama">
+                <div class="toolbar">
+                    <h1>Nahdlatul Ulama'</h1>
+                    <a class="back" href="#beranda">Kembali</a>
+                </div>
+                <ul class="metal scroll" id="feed_nahdlatul_ulama">
+                    <li><a href="#">Mohon Tunggu<em>Sedang memuat berita...</em></a></li>
+                </ul>
+            </div>   
+            <div id="muhammadiyah">
+                <div class="toolbar">
+                    <h1>Muhammadiyah</h1>
+                    <a class="back" href="#beranda">Kembali</a>
+                </div>
+                <ul class="metal scroll" id="feed_muhammadiyah">
+                    <li><a href="#">Mohon Tunggu<em>Sedang memuat berita...</em></a></li>
+                </ul>
+            </div>              
+            <!-- Menu Utama -->
+            <div id="beranda" class="current">
+                <div class="toolbar">
+                    <h1>Menu Utama</h1>
+                    <a class="button slideup" id="infoButton" href="#tentang">Tentang</a>
+                </div>
+                <div class="scroll">
+                    <ul class="rounded">
+                        <li class="arrow"><a href="surat_yasiin.html">Surat Yasiin</a></li>
+                        <li class="arrow"><a href="tahlil.html">Do'a Tahlil</a></li>
+                        <li class="arrow"><a href="sholawat_nariyah.html">Shalawat Nariyah</a></li>
+                        <li class="arrow"><a href="ziarah_kubur.html">Do'a Ziarah Kubur</a></li>
+                        <li class="arrow"><a href="nishfu_syaban.html">Do'a Nishfu Sya'ban</a></li>
+                        <li class="arrow"><a href="hari_asyura.html">Do'a Hari Asyura</a></li>
+                        <li class="arrow"><a href="mayyit.html">Do'a Untuk Mayyit</a></li>
+                        <li class="arrow"><a href="talkin_mayyit.html">Talkin Atas Mayyit</a></li>
+                        <li class="arrow"><a href="awal_tahun.html">Do'a Awal Tahun</a></li>
+                        <li class="arrow"><a href="akhir_tahun.html">Do'a Akhir Tahun</a></li>
+					</ul>
+                    <h2>Media Islam Rujukan</h2>
+                    <ul class="rounded">
+                        <li class="arrow"><a href="#media_islam" class="swap">Berita Islam</a></li>
+                        <li class="arrow"><a href="#nahdlatul_ulama" class="swap">Nahdlatul Ulama'</a></li>
+                        <li class="arrow"><a href="#muhammadiyah" class="swap">Muhammadiyah</a></li>
+                    </ul>
+                    <ul class="individual">
+                        <li><a class="pop" target="_blank" href="https://www.facebook.com/yasiindantahlil">Facebook</a></li>
+                        <li><a class="pop" target="_blank" href="https://twitter.com/aplikasi_yasiin">Twitter</a></li>
+                    </ul>
+                    <div class="info">
+                        <p>Hak Cipta &copy; Pendidikan Teknik Informatika<br>Offering C 2010, Universitas Negeri Malang.</p>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>

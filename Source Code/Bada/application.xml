@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Application>
+    <Entry>Yasiin</Entry>
+    <Name>
+        <English>Yasiin dan Tahlil</English>
+        <eng-GB>Yasiin dan Tahlil</eng-GB>
+    </Name>
+    <Vendor>Universitas Negeri Malang</Vendor>
+    <Description/>
+    <Icons>
+        <MainMenu>Yasiin_type4.png<Type1/>
+            <Type2/>
+            <Type3>Yasiin_type3.png</Type3>
+            <Type4>Yasiin_type4.png</Type4>
+            <Type5>Yasiin_type5.png</Type5>
+        </MainMenu>
+        <Setting/>
+        <Ticker/>
+        <QuickPanel/>
+        <LaunchImage>Splash_type4.png<Type1/>
+            <Type2/>
+            <Type3>Splash_type3.png</Type3>
+            <Type4>Splash_type4.png</Type4>
+            <Type5>Splash_type5.png</Type5>
+        </LaunchImage>
+    </Icons>
+    <AutoScaling>
+        <Enabled>false</Enabled>
+    </AutoScaling>
+</Application>
